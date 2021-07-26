@@ -11,7 +11,7 @@ const dataSchema = new mongoose.Schema({
     type: Number,
   },
   title: {
-    type: Object,
+    type: mongoose.Schema.Types.Mixed,
   },
   calories: {
     type: Number,

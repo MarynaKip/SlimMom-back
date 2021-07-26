@@ -68,12 +68,12 @@ const getEatenProductsListService = async (userId, date) => {
 
 const countKkal = async (productName, productWeight) => {
   const product = await Data.findOne({
+    'title.ru': productName,
     title: {
       ru: 'Котлеты из говядины Мираторг Black Angus',
       ua: 'Котлети з яловичини Міраторг Black Angus',
     },
   })
-  // Нужно найти решение по поиску товара или работать с айдишниками!!!!!!!!
   const { calories, weight } = product
   const productKkal = Math.round((calories / weight) * productWeight)
 
