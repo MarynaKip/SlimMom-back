@@ -67,21 +67,9 @@ const getEatenProductsListService = async (userId, date) => {
 }
 
 const countKkal = async (productName, productWeight) => {
-  const product = await Data.findOne({
-    title: {
-      ru: 'Котлеты из говядины Мираторг Black Angus',
-      ua: 'Котлети з яловичини Міраторг Black Angus',
-    },
-  })
-  // Нужно найти решение по поиску товара или работать с айдишниками!!!!!!!!
+  const product = await Data.findOne({ 'title.ru': productName })
   const { calories, weight } = product
   const productKkal = Math.round((calories / weight) * productWeight)
-
-  // const data = await fs.readFile(productsPath)
-  // const productsList = JSON.parse(data)
-  // const product = productsList.find(item => item._id.$oid === productId)
-  // const productKkal = Math.round((product.calories / product.weight) * weight)
-  // const pro = await Product.findOne({ date: '2021-08-07' })
 
   return productKkal
 }
