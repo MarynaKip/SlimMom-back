@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 
 const { asyncWrapper } = require('../helpers/apiHelpers')
+const { authMiddleware } = require('../middlewares/authMiddleware')
 
 const { addEatenProductController, deleteEatenProductController, getEatenProductsListController } = require('../controllers/eatenProductsController')
 
@@ -12,8 +13,8 @@ const { addEatenProductController, deleteEatenProductController, getEatenProduct
 // validationCreateProduct//
 // Сделать проверку валидации на введенные данные!
 
-router.post('/', asyncWrapper(addEatenProductController))
-router.delete('/', asyncWrapper(deleteEatenProductController))
-router.get('/:date', asyncWrapper(getEatenProductsListController))
+router.post('/', authMiddleware, asyncWrapper(addEatenProductController))
+router.delete('/', authMiddleware, asyncWrapper(deleteEatenProductController))
+router.get('/:date', authMiddleware, asyncWrapper(getEatenProductsListController))
 
 module.exports = router
