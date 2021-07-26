@@ -1,29 +1,22 @@
 const mongoose = require('mongoose')
-const bcrypt = require('bcrypt');
+const { Schema } = mongoose
 
-const productSchema = new mongoose.Schema({
-    productName: {
-        type: String,
-        required: [true, 'productName is required'],
-    },
-    date: {
-        type: Date,
-        required: [true, 'Date is required'],
-        default: Date.now(),
-    },
-    userId: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        ref: 'Users'
-    },
-    productWeight: {
-        type: String,
-    },
-    productKkal: {
-        type: String,
-    },
+const productSchema = new Schema({
+  categories: [{ type: String }],
+  weight: { type: Number, required: true },
+  title: {
+    ru: { type: String, required: true },
+    ua: { type: String, required: true },
+  },
+  calories: { type: Number, required: true },
+  groupBloodNotAllowed: {
+    1: { type: Boolean, required: true },
+    2: { type: Boolean, required: true },
+    3: { type: Boolean, required: true },
+    4: { type: Boolean, required: true },
+  },
 })
 
-const Product = mongoose.model('Product', productSchema);
+const productModel = mongoose.model('Product', productSchema)
 
-module.exports = { Product }
+module.exports = productModel

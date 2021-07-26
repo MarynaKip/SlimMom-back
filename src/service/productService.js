@@ -1,4 +1,4 @@
-const productModel = require('./product.model')
+const productModel = require('./db/productModel')
 
 module.exports = class ProductService {
   static async getProducts(search) {
