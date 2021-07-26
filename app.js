@@ -7,7 +7,7 @@ const app = express()
 const eatenProductsRouter = require('./src/routes/eatenProductsRouter')
 
 // const { productsRouter } = require('./src/routes/productsRouter')
-// const { userRouter } = require('./src/routes/userRouter')
+const userRouter = require('./src/routes/usersRouter')
 
 const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short'
 
@@ -15,7 +15,7 @@ app.use(logger(formatsLogger))
 app.use(express.json())
 
 // app.use('/api/products', productsRouter)
-// app.use('/users', userRouter)
+app.use('/api/user', userRouter)
 
 app.use('/app/eaten_products', eatenProductsRouter)
 
