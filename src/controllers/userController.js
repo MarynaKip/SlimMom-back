@@ -3,11 +3,11 @@ const {
   registration,
   logout,
   // getCurrentUser,
-} = require('../service/user')
+} = require('../services/user')
 
 const registrationController = async (req, res, next) => {
-  const { email, password, height, currentWeight, desiredWeight, bloodType, name } = req.body
-  const user = await registration({ email, password, height, currentWeight, desiredWeight, bloodType, name })
+  const { email, password, name } = req.body
+  const user = await registration({ email, password, name })
   res.status(201).json({
     user
   })

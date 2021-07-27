@@ -29,10 +29,10 @@ const login = async ({ email, password }) => {
   return updatedUser
 }
 
-const registration = async ({ email, password, height, currentWeight, desiredWeight, bloodType, name }) => {
+const registration = async ({ email, password, name }) => {
   const existEmail = await User.findOne({ email })
   if (existEmail) { throw new RegistrationConflictError('Email  is already used') }
-  const user = new User({ email, password, height, currentWeight, desiredWeight, bloodType, name })
+  const user = new User({ email, password, name })
   await user.save()
   return login({ email, password })
 }

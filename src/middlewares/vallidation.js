@@ -8,42 +8,31 @@ const checkValidation = (schema, req, res, next) => {
   next()
 }
 
-const validationData = (req, res, next) => {
+const authorInfoValidation = (req, res, next) => {
   const schema = Joi.object({
-    name: Joi.string()
-      .min(3).max(30).required(),
-    phone: Joi.string()
-      .min(7)
-      .max(10)
-      .required(),
-    email: Joi.string()
-      .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } })
-      .required(),
+    height: Joi.string().min(3).max(4).required(),
+    currentWeight: Joi.string().min(2).max(3).required(),
+    desiredWeight: Joi.string().min(2).max(3).required(),
+    bloodType: Joi.string().min(1).max(1).required(),
+    age: Joi.string().min(1).max(3).required(),
   })
   checkValidation(schema, req, res, next)
 }
-
 const registrationValidation = (req, res, next) => {
   const schema = Joi.object({
     name: Joi.string()
       .min(3).max(30).required(),
     password: Joi.string().min(3).max(30).required(),
-    height: Joi.string().min(3).max(4).required(),
-    currentWeight: Joi.string().min(2).max(3).required(),
-    desiredWeight: Joi.string().min(2).max(3).required(),
-    bloodType: Joi.string().min(1).max(1).required(),
     email: Joi.string()
       .email({
         minDomainSegments: 2
       })
-      .required()
+      .required(),
   })
   checkValidation(schema, req, res, next)
 }
 const loginValidation = (req, res, next) => {
   const schema = Joi.object({
-    name: Joi.string()
-      .min(3).max(30),
     password: Joi.string().min(3).max(30).required(),
     email: Joi.string()
       .email({
@@ -53,4 +42,4 @@ const loginValidation = (req, res, next) => {
   })
   checkValidation(schema, req, res, next)
 }
-module.exports = { validationData, registrationValidation, loginValidation }
+module.exports = { registrationValidation, loginValidation, authorInfoValidation }

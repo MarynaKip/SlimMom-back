@@ -17,7 +17,10 @@ const dataSchema = new mongoose.Schema({
     type: Number,
   },
   groupBloodNotAllowed: {
-    type: Array,
+    1: { type: Boolean, required: true },
+    2: { type: Boolean, required: true },
+    3: { type: Boolean, required: true },
+    4: { type: Boolean, required: true },
   },
 })
 
