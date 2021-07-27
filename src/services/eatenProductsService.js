@@ -1,10 +1,7 @@
-
 const { Product } = require('../db/productModel')
 const { Data } = require('../db/dataProductsModel')
 
 const addEatenProductService = async (userId, body) => {
-  // Chenge to =>
-  // const userId = req.user.id
   const { date, productWeight, productName } = body
 
   if (!isToday(date)) {
@@ -15,7 +12,6 @@ const addEatenProductService = async (userId, body) => {
   const product = await Product.findOne({ userId, date, productName })
 
   if (!product) {
-    console.log(product)
     const productKkal = await countKkal(productName, productWeight)
 
     const newProduct = new Product({
@@ -47,9 +43,7 @@ const addEatenProductService = async (userId, body) => {
   return updateProduct
 }
 
-const deleteEatenProductService = async (userId, body) => {
-  const { date, productName } = body
-
+const deleteEatenProductService = async (userId, { date, productName }) => {
   if (!isToday(date)) {
     return null
     // выдать ошибку
@@ -57,11 +51,18 @@ const deleteEatenProductService = async (userId, body) => {
 
   const product = await Product.findOneAndRemove({ userId, date, productName })
 
+  // выдать сообщение, что на эту дату нет никакой информации
+
   return product
 }
 
-const getEatenProductsListService = async (userId, date) => {
+const getEatenProductsListService = async (userId, { date }) => {
   const productList = await Product.find({ userId, date }).select({ __v: 0 })
+
+  // выдать ошибку
+  if (productList.length === 0) {
+    return 'No info for this day'
+  }
 
   return productList
 }
@@ -74,7 +75,7 @@ const countKkal = async (productName, productWeight) => {
   return productKkal
 }
 
-const isToday = (date) => {
+const isToday = date => {
   const inputDay = new Date(date).setHours(0, 0, 0, 0)
   const today = new Date().setHours(0, 0, 0, 0)
 

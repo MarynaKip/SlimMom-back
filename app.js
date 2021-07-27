@@ -17,7 +17,7 @@ app.use(express.json())
 // app.use('/api/products', productsRouter)
 app.use('/api/user', userRouter)
 
-app.use('/app/eaten_products', eatenProductsRouter)
+app.use('/api/eaten_products', eatenProductsRouter)
 
 app.use((req, res) => {
   res.status(404).json({ message: 'Not found' })

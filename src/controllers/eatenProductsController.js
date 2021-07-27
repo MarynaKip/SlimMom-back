@@ -1,21 +1,18 @@
-const { addEatenProductService, deleteEatenProductService, getEatenProductsListService } = require('../services/eatenProductsService')
+const {
+  addEatenProductService,
+  deleteEatenProductService,
+  getEatenProductsListService,
+} = require('../services/eatenProductsService')
 
 const addEatenProductController = async (req, res) => {
-  const data = await addEatenProductService(
-    '60dd7ba58680b5629c111111',
-    req.body,
-  )
+  const data = await addEatenProductService(req.user._id, req.body)
   // заглушка на юзера!!! userId = req.user._id
 
   return res.status(200).json({ data, status: 'success' })
 }
 
 const deleteEatenProductController = async (req, res) => {
-  const product = await deleteEatenProductService(
-    '60dd7ba58680b5629c111111',
-    req.body,
-  )
-  // заглушка на юзера!!! userId = req.user._id
+  const product = await deleteEatenProductService(req.user._id, req.body)
 
   if (!product) {
     return res.status(404).json({ message: 'Not found' })
@@ -24,13 +21,7 @@ const deleteEatenProductController = async (req, res) => {
 }
 
 const getEatenProductsListController = async (req, res) => {
-  const { date } = req.params
-
-  // заглушка на юзера!!! userId = req.user._id
-  const data = await getEatenProductsListService(
-    '60dd7ba58680b5629c111111',
-    date,
-  )
+  const data = await getEatenProductsListService(req.user._id, req.params)
 
   if (!data) {
     // Нет информации на эту дату....
