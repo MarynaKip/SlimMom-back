@@ -6,6 +6,12 @@ const { authMiddleware } = require('../middlewares/authMiddleware')
 
 const { addEatenProductController, deleteEatenProductController, getEatenProductsListController } = require('../controllers/eatenProductsController')
 
+const {
+  validationAddEatenProduct,
+  validationDeleteEatenProduct,
+  validationGetEatenProducts,
+} = require('../middlewares/validationEatenProdacts')
+
 /// ////////добавить прослойку на проверку аутентификации!
 // const { authMiddleware } = require("../../middlewares/authMiddleware")
 // router.use(authMiddleware)
@@ -13,8 +19,8 @@ const { addEatenProductController, deleteEatenProductController, getEatenProduct
 // validationCreateProduct//
 // Сделать проверку валидации на введенные данные!
 
-router.post('/', authMiddleware, asyncWrapper(addEatenProductController))
-router.delete('/', authMiddleware, asyncWrapper(deleteEatenProductController))
-router.get('/:date', authMiddleware, asyncWrapper(getEatenProductsListController))
+router.post('/', authMiddleware, validationAddEatenProduct, asyncWrapper(addEatenProductController))
+router.delete('/', authMiddleware, validationDeleteEatenProduct, asyncWrapper(deleteEatenProductController))
+router.get('/:date', authMiddleware, validationGetEatenProducts, asyncWrapper(getEatenProductsListController))
 
 module.exports = router
