@@ -1,5 +1,4 @@
 const mongoose = require('mongoose')
-// const bcrypt = require('bcrypt')
 
 const productSchema = new mongoose.Schema({
   productName: {
@@ -7,14 +6,14 @@ const productSchema = new mongoose.Schema({
     required: [true, 'productName is required'],
   },
   date: {
-    type: Date,
+    type: String,
     required: [true, 'Date is required'],
-    default: Date.now(),
+    // default: Date.now(),
   },
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
-    ref: 'Users'
+    ref: 'Users',
   },
   productWeight: {
     type: String,
