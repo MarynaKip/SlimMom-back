@@ -1,28 +1,6 @@
-
-// const { User } = require('../db/userModel')
 const { Data } = require('../db/dataProductsModel')
-const { NotAuthorized } = require('../helpers/errors')
-// const dailyNorm = async ({ currentWeight, desiredWeight, height, age, bloodType }, groupBloodNotAllowed, title) => {
-//   // const calc = 10 * currentWeight + 6.25 * height - 5 * age - 161 - 10 * (currentWeight - desiredWeight)
-//   const productNotAllowed = Data.find({groupBloodNotAllowed[bloodType] === true})
-//   if (!productNotAllowed) {
-//     throw new NotAuthorized('Product is wrong')
-//   }
-//   const user = new Data(title.ru)
-//   await user.save()
-//   return user
-// }
+
 const dailyNorm = async ({ currentWeight, height, age, desiredWeight, bloodType }) => {
-  console.log('bloodType', Number(bloodType))
-  // const groupBloodNotAllowed = [
-  //   null,
-  //   false,
-  //   false,
-  //   false,
-  //   false
-  // ]
-  // groupBloodNotAllowed[bloodType] = true
-  // console.log('groupBloodNotAllowed', { groupBloodNotAllowed })
   const calc = 10 * currentWeight + 6.25 * height - 5 * age - 161 - 10 * (currentWeight - desiredWeight)
   const dailyNorm = Math.round(calc)
   switch (Number(bloodType)) {
