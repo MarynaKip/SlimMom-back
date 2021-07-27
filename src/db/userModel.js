@@ -20,6 +20,11 @@ const userSchema = new mongoose.Schema({
     // required: [true, 'height is required'],
 
   },
+  age: {
+    type: String,
+    // required: [true, 'height is required'],
+
+  },
   currentWeight: {
     type: String,
     // required: [true, 'currentWeight is required'],
@@ -31,7 +36,7 @@ const userSchema = new mongoose.Schema({
 
   },
   bloodType: {
-    type: String,
+    type: Number,
     // required: [true, 'bloodType is required'],
 
   },
