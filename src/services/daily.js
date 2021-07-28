@@ -1,7 +1,8 @@
 const { Data } = require('../db/dataProductsModel')
+const { User } = require('../db/userModel')
 
 const dailyNorm = async ({ currentWeight, height, age, desiredWeight, bloodType }) => {
-  const calc = 10 * currentWeight + 6.25 * height - 5 * age - 161 - 10 * (currentWeight - desiredWeight)
+  const calc = 10 * Number(currentWeight) + 6.25 * Number(height) - 5 * Number(age) - 161 - 10 * (Number(currentWeight) - Number(desiredWeight))
   const dailyNorm = Math.round(calc)
   switch (Number(bloodType)) {
     case 1: {
@@ -28,4 +29,14 @@ const dailyNorm = async ({ currentWeight, height, age, desiredWeight, bloodType 
       return false
   }
 }
-module.exports = { dailyNorm }
+
+const privatDailyNorm = async ({ id, token, currentWeight, height, age, desiredWeight, bloodType }) => {
+  const updateDailyUserNorm = await User.findByIdAndUpdate(
+    { _id: id, token },
+    { $set: { currentWeight, height, age, desiredWeight } },
+    { new: true }
+  )
+  console.log(updateDailyUserNorm)
+  return dailyNorm({ currentWeight, height, age, desiredWeight, bloodType })
+}
+module.exports = { dailyNorm, privatDailyNorm }

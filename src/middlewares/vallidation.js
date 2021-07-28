@@ -28,6 +28,11 @@ const registrationValidation = (req, res, next) => {
         minDomainSegments: 2
       })
       .required(),
+    height: Joi.string().min(3).max(4).optional(),
+    currentWeight: Joi.string().min(2).max(3).optional(),
+    desiredWeight: Joi.string().min(2).max(3).optional(),
+    bloodType: Joi.string().min(1).max(1).optional(),
+    age: Joi.string().min(1).max(3).optional(),
   })
   checkValidation(schema, req, res, next)
 }
