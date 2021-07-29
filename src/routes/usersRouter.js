@@ -11,12 +11,12 @@ const {
   registrationController,
   loginController,
   logoutController,
-  // getCurrentUserController,
+  getCurrentUserController,
 } = require('../controllers/userController')
 
 router.post('/registration', registrationValidation, asyncWrapper(registrationController))
 router.post('/login', loginValidation, asyncWrapper(loginController))
 router.post('/logout', authMiddleware, asyncWrapper(logoutController))
-// router.get('/current', authMiddleware, asyncWrapper(getCurrentUserController))
+router.get('/current', authMiddleware, asyncWrapper(getCurrentUserController))
 
 module.exports = router
