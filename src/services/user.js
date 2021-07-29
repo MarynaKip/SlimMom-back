@@ -33,7 +33,7 @@ const registration = async ({ email, password, height, name, currentWeight, desi
   const existEmail = await User.findOne({ email })
   if (existEmail) { throw new RegistrationConflictError('Email  is already used') }
   const user = new User({ email, password, height, name, currentWeight, desiredWeight, bloodType, age })
-  console.log('user', user)
+  await user.save()
   return login({ email, password })
 }
 const logout = async ({ id, token }) => {
@@ -46,9 +46,16 @@ const logout = async ({ id, token }) => {
     throw new NotAuthorized('Not authorized')
   }
 }
+const getCurrentUser = async ({ id, token }) => {
+  const currentUser = await User.findOne(
+    { _id: id, token },
+  )
+  return currentUser
+}
 
 module.exports = {
   registration,
   login,
   logout,
+  getCurrentUser
 }

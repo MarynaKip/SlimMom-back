@@ -2,7 +2,7 @@ const {
   login,
   registration,
   logout,
-  // getCurrentUser,
+  getCurrentUser,
 } = require('../services/user')
 
 const registrationController = async (req, res, next) => {
@@ -27,16 +27,16 @@ const logoutController = async (req, res) => {
 
   res.status(204).json({ message: 'Logout successful' })
 }
-// const getCurrentUserController = async (req, res, next) => {
-//   const token = req.token
-//   const { _id: userId } = req.user
-//   const currentUser = await getCurrentUser({ userId, token })
-//   return res.status(200).json({ currentUser })
-// }
+const getCurrentUserController = async (req, res, next) => {
+  const token = req.token
+  const { _id: id } = req.user
+  const currentUser = await getCurrentUser({ id, token })
+  return res.status(200).json({ currentUser })
+}
 
 module.exports = {
   registrationController,
   loginController,
   logoutController,
-  // getCurrentUserController,
+  getCurrentUserController,
 }
