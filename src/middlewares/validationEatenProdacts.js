@@ -1,5 +1,7 @@
 const Joi = require('joi').extend(require('@joi/date'))
 
+const { ValidationError } = require('../helpers/errors')
+
 const validationAddEatenProduct = (req, res, next) => {
   const schema = Joi.object({
     productName: Joi.string().required(),
@@ -8,7 +10,7 @@ const validationAddEatenProduct = (req, res, next) => {
   })
   const validationResult = schema.validate(req.body)
   if (validationResult.error) {
-    return res.status(400).json({ status: validationResult.error.message })
+    next(new ValidationError(validationResult.error.message))
   }
   next()
 }
@@ -20,7 +22,7 @@ const validationDeleteEatenProduct = (req, res, next) => {
   })
   const validationResult = schema.validate(req.body)
   if (validationResult.error) {
-    return res.status(400).json({ status: validationResult.error.message })
+    next(new ValidationError(validationResult.error.message))
   }
   next()
 }
@@ -31,7 +33,7 @@ const validationGetEatenProducts = (req, res, next) => {
   })
   const validationResult = schema.validate(req.params)
   if (validationResult.error) {
-    return res.status(400).json({ status: validationResult.error.message })
+    next(new ValidationError(validationResult.error.message))
   }
   next()
 }

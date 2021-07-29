@@ -8,7 +8,6 @@ const productSchema = new mongoose.Schema({
   date: {
     type: String,
     required: [true, 'Date is required'],
-    // default: Date.now(),
   },
   userId: {
     type: mongoose.Schema.Types.ObjectId,
@@ -23,6 +22,6 @@ const productSchema = new mongoose.Schema({
   },
 })
 
-const Product = mongoose.model('Product', productSchema)
+const EatenProducts = mongoose.model('Product', productSchema)
 
-module.exports = { Product }
+module.exports = { EatenProducts }
