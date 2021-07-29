@@ -5,6 +5,7 @@ require('dotenv').config()
 const app = express()
 
 const eatenProductsRouter = require('./src/routes/eatenProductsRouter')
+const { errorHandler } = require('./src/helpers/apiHelpers')
 
 // const { productsRouter } = require('./src/routes/productsRouter')
 const userRouter = require('./src/routes/usersRouter')
@@ -21,12 +22,6 @@ app.use('/api/daily', dailyRouter)
 
 app.use('/api/eaten_products', eatenProductsRouter)
 
-app.use((req, res) => {
-  res.status(404).json({ message: 'Not found' })
-})
-
-app.use((err, req, res, next) => {
-  res.status(500).json({ message: err.message })
-})
+app.use(errorHandler)
 
 module.exports = app

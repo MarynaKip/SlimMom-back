@@ -1,20 +1,20 @@
-const { Product } = require('../db/productModel')
+const { EatenProducts } = require('../db/eatenProductsModel')
 const { Data } = require('../db/dataProductsModel')
+const { ValidationError, NotFoundError } = require('../helpers/errors')
 
 const addEatenProductService = async (userId, body) => {
   const { date, productWeight, productName } = body
 
-  if (!isToday(date)) {
-    return null
-    // выдать ошибку
+  if (!isCurrentDay(date)) {
+    throw new ValidationError('Date must be current')
   }
 
-  const product = await Product.findOne({ userId, date, productName })
+  const product = await EatenProducts.findOne({ userId, date, productName })
 
   if (!product) {
     const productKkal = await countKkal(productName, productWeight)
 
-    const newProduct = new Product({
+    const newProduct = new EatenProducts({
       date,
       userId,
       productWeight,
@@ -31,7 +31,7 @@ const addEatenProductService = async (userId, body) => {
 
   const productKkal = await countKkal(productName, newProductWeight)
 
-  const updateProduct = await Product.findOneAndUpdate(
+  const updateProduct = await EatenProducts.findOneAndUpdate(
     { _id: product._id },
     {
       productWeight: newProductWeight,
@@ -44,38 +44,37 @@ const addEatenProductService = async (userId, body) => {
 }
 
 const deleteEatenProductService = async (userId, { date, productName }) => {
-  if (!isToday(date)) {
-    return null
-    // выдать ошибку
+  if (!isCurrentDay(date)) {
+    throw new ValidationError('Date must be current')
   }
 
-  const product = await Product.findOneAndRemove({ userId, date, productName })
+  const product = await EatenProducts.findOneAndRemove({ userId, date, productName })
 
-  // выдать сообщение, что на эту дату нет никакой информации
-
-  return product
+  if (!product) {
+    throw new NotFoundError('This product is not eaten on the current date')
+  }
 }
 
 const getEatenProductsListService = async (userId, { date }) => {
-  const productList = await Product.find({ userId, date }).select({ __v: 0 })
-
-  // выдать ошибку
-  if (productList.length === 0) {
-    return 'No info for this day'
-  }
+  const productList = await EatenProducts.find({ userId, date }).select({ __v: 0 })
 
   return productList
 }
 
 const countKkal = async (productName, productWeight) => {
   const product = await Data.findOne({ 'title.ru': productName })
+
+  if (!product) {
+    throw new NotFoundError('Product name is not correct')
+  }
+
   const { calories, weight } = product
   const productKkal = Math.round((calories / weight) * productWeight)
 
   return productKkal
 }
 
-const isToday = date => {
+const isCurrentDay = date => {
   const inputDay = new Date(date).setHours(0, 0, 0, 0)
   const today = new Date().setHours(0, 0, 0, 0)
 
