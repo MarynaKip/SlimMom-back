@@ -31,12 +31,11 @@ const dailyNorm = async ({ currentWeight, height, age, desiredWeight, bloodType 
 }
 
 const privatDailyNorm = async ({ id, token, currentWeight, height, age, desiredWeight, bloodType }) => {
-  const updateDailyUserNorm = await User.findByIdAndUpdate(
+  await User.findByIdAndUpdate(
     { _id: id, token },
-    { $set: { currentWeight, height, age, desiredWeight } },
+    { $set: { currentWeight, age, desiredWeight } },
     { new: true }
   )
-  console.log(updateDailyUserNorm)
   return dailyNorm({ currentWeight, height, age, desiredWeight, bloodType })
 }
 module.exports = { dailyNorm, privatDailyNorm }
