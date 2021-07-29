@@ -1,7 +1,7 @@
 const express = require('express')
 const logger = require('morgan')
 require('dotenv').config()
- const { errorHandler } = require('./src/helpers/apiHelpers')
+const { errorHandler } = require('./src/helpers/apiHelpers')
 
 const app = express()
 
