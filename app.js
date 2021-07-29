@@ -1,17 +1,12 @@
 const express = require('express')
 const logger = require('morgan')
 require('dotenv').config()
+const { errorHandler } = require('./src/helpers/apiHelpers')
 
 const app = express()
 
 const eatenProductsRouter = require('./src/routes/eatenProductsRouter')
-<<<<<<< HEAD
-const { errorHandler } = require('./src/helpers/apiHelpers')
-
-// const { productsRouter } = require('./src/routes/productsRouter')
-=======
 const productsRouter = require('./src/routes/productsRouter')
->>>>>>> dev
 const userRouter = require('./src/routes/usersRouter')
 const dailyRouter = require('./src/routes/dailyNormRoute')
 

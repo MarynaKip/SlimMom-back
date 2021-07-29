@@ -86,6 +86,3 @@ module.exports = {
   deleteEatenProductService,
   getEatenProductsListService,
 }
-
-
-//тестовый коммит для решения конфликтов!

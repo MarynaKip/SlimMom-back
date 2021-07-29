@@ -29,16 +29,16 @@ const login = async ({ email, password }) => {
   return updatedUser
 }
 
-const registration = async ({ email, password, name }) => {
+const registration = async ({ email, password, height, name, currentWeight, desiredWeight, bloodType, age }) => {
   const existEmail = await User.findOne({ email })
   if (existEmail) { throw new RegistrationConflictError('Email  is already used') }
-  const user = new User({ email, password, name })
-  await user.save()
+  const user = new User({ email, password, height, name, currentWeight, desiredWeight, bloodType, age })
+  console.log('user', user)
   return login({ email, password })
 }
-const logout = async ({ id }) => {
+const logout = async ({ id, token }) => {
   const logoutUser = await User.findOneAndUpdate(
-    { _id: id },
+    { _id: id, token },
     { $set: { token: null } },
     { new: true }
   )
@@ -46,16 +46,9 @@ const logout = async ({ id }) => {
     throw new NotAuthorized('Not authorized')
   }
 }
-// const getCurrentUser = async ({ userId, token }) => {
-//   const currentUser = await User.findOne(
-//     { _id: userId, token },
-//   )
-//   return currentUser
-// }
 
 module.exports = {
   registration,
   login,
   logout,
-  // getCurrentUser,
 }

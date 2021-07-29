@@ -6,12 +6,11 @@ const {
 } = require('../services/user')
 
 const registrationController = async (req, res, next) => {
-  const { email, password, name } = req.body
-  const user = await registration({ email, password, name })
+  const { email, password, height, name, currentWeight, desiredWeight, bloodType, age } = req.body
+  const user = await registration({ email, password, height, name, currentWeight, desiredWeight, bloodType, age })
   res.status(201).json({
     user
   })
-  // json({ status: 'created' })
 }
 
 const loginController = async (req, res, next) => {
@@ -21,12 +20,12 @@ const loginController = async (req, res, next) => {
 }
 const logoutController = async (req, res) => {
   const { id } = req.user
-  // const token = req.token
+  const token = req.token
   await logout({
-    id
+    id, token
   })
 
-  res.status(204).json({ status: 'Empty' })
+  res.status(204).json({ message: 'Logout successful' })
 }
 // const getCurrentUserController = async (req, res, next) => {
 //   const token = req.token
