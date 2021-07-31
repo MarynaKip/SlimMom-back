@@ -1,4 +1,5 @@
 const express = require('express')
+const cors = require('cors')
 const logger = require('morgan')
 require('dotenv').config()
 const { errorHandler } = require('./src/helpers/apiHelpers')
@@ -14,6 +15,7 @@ const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short'
 
 app.use(logger(formatsLogger))
 app.use(express.json())
+app.use(cors())
 
 app.use('/api/products', productsRouter)
 app.use('/api/user', userRouter)
