@@ -7,13 +7,13 @@ const {
 const addEatenProductController = async (req, res) => {
   const data = await addEatenProductService(req.user._id, req.body)
 
-  return res.status(200).json({ data, status: 'success' })
+  return res.status(201).json({ data, status: 'success' })
 }
 
 const deleteEatenProductController = async (req, res) => {
   await deleteEatenProductService(req.user._id, req.body)
 
-  return res.status(200).json({ status: 'success' })
+  return res.status(204).json({ status: 'success' })
 }
 
 const getEatenProductsListController = async (req, res) => {

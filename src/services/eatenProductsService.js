@@ -1,12 +1,12 @@
 const { EatenProducts } = require('../db/eatenProductsModel')
 const { Data } = require('../db/dataProductsModel')
-const { ValidationError, NotFoundError } = require('../helpers/errors')
+const { WrongParametersError, NotFoundError } = require('../helpers/errors')
 
 const addEatenProductService = async (userId, body) => {
   const { date, productWeight, productName } = body
 
-  if (!isCurrentDay(date)) {
-    throw new ValidationError('Date must be current')
+  if (!isCurrentDate(date)) {
+    throw new WrongParametersError('The date must be current')
   }
 
   const product = await EatenProducts.findOne({ userId, date, productName })
@@ -44,8 +44,8 @@ const addEatenProductService = async (userId, body) => {
 }
 
 const deleteEatenProductService = async (userId, { date, productName }) => {
-  if (!isCurrentDay(date)) {
-    throw new ValidationError('Date must be current')
+  if (!isCurrentDate(date)) {
+    throw new WrongParametersError('The date must be current')
   }
 
   const product = await EatenProducts.findOneAndRemove({ userId, date, productName })
@@ -56,6 +56,9 @@ const deleteEatenProductService = async (userId, { date, productName }) => {
 }
 
 const getEatenProductsListService = async (userId, { date }) => {
+  if (isFutureDate(date)) {
+    throw new WrongParametersError('Date cannot be in the future')
+  }
   const productList = await EatenProducts.find({ userId, date }).select({ __v: 0 })
 
   return productList
@@ -74,11 +77,18 @@ const countKkal = async (productName, productWeight) => {
   return productKkal
 }
 
-const isCurrentDay = date => {
+const isCurrentDate = date => {
   const inputDay = new Date(date).setHours(0, 0, 0, 0)
   const today = new Date().setHours(0, 0, 0, 0)
 
   return inputDay === today
+}
+
+const isFutureDate = date => {
+  const inputDay = new Date(date).setHours(0, 0, 0, 0)
+  const today = new Date().setHours(0, 0, 0, 0)
+
+  return inputDay > today
 }
 
 module.exports = {
