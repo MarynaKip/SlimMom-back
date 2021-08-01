@@ -7,7 +7,7 @@ const {
 const addEatenProductController = async (req, res) => {
   const data = await addEatenProductService(req.user._id, req.body)
 
-  return res.status(201).json({ data, message: 'created' })
+  return res.status(201).json({ data })
 }
 
 const deleteEatenProductController = async (req, res) => {
@@ -19,7 +19,7 @@ const deleteEatenProductController = async (req, res) => {
 const getEatenProductsListController = async (req, res) => {
   const data = await getEatenProductsListService(req.user._id, req.params)
 
-  return res.status(200).json({ data, message: 'successful operation' })
+  return res.status(200).json({ data })
 }
 
 module.exports = {

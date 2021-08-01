@@ -27,7 +27,6 @@
     }
   ],
 
-
   "paths": {
     "/api/user/registration": {
       "post": {
@@ -234,13 +233,15 @@
       "get": {
         "tags": ["Eaten products"],
         "summary": "Get a list of products eaten by the user for a specific day",
-        "parameters": [{
-          "in": "path",
-          "name": "date",
-          "required": true,
-          "type": "string",
-          "description": "Date of user's eaten products"
-        }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "date",
+            "required": true,
+            "type": "string",
+            "description": "Date of user's eaten products"
+          }
+        ],
         "security": [{ "Bearer": [] }],
         "responses": {
           "200": {
@@ -275,8 +276,6 @@
           "description": "Delete eaten product object",
           "required": true,
 
-
-
           "content": {
             "application/json": {
               "schema": {
@@ -284,8 +283,6 @@
               }
             }
           }
-
-
         },
         "responses": {
           "204": {
@@ -312,11 +309,129 @@
           }
         }
       }
-      
     }
   },
   "components": {
     "schemas": {
+      "RegistrationRequest": {
+        "type": "object",
+        "required": ["name", "email", "password"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 30,
+            "description": "User's name",
+            "example": "Nina"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 30,
+            "description": "User's password",
+            "example": "123qwe"
+          },
+          "height": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 4,
+            "description": "User's height (cm)",
+            "example": "170"
+          },
+          "currentWeight": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 3,
+            "description": "User's current weight (kilo)",
+            "example": "68"
+          },
+          "desiredWeight": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 3,
+            "description": "User's desire weight (kilo)",
+            "example": "60"
+          },
+          "bloodType": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1,
+            "description": "User's blood type (1-4)",
+            "example": "3"
+          },
+          "age": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 3,
+            "description": "User's age",
+            "example": "33"
+          }
+        }
+      },
+      "RegistrationResponse": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "type": "object",
+            "properties": {
+              "token": {
+                "type": "string",
+                "description": "Access token",
+                "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTA3MWIyMTc3OTMwMDAwMWNjMTRkNmMiLCJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20iLCJpYXQiOjE2Mjc4NTU2NDl9.1OcbkBQQl9K5L9s44anlGqq61Up7e21jBLH_NIp2jgs"
+              },
+              "verify": {
+                "type": "boolean",
+                "description": "User's verify"
+              },
+              "_id": {
+                "type": "string",
+                "description": "User's id",
+                "example": "6106916986adfa001ce638d9"
+              },
+              "email": {
+                "type": "string",
+                "description": "User's email",
+                "format": "email"
+              },
+              "name": {
+                "type": "string",
+                "description": "User's name",
+                "example": "Nina"
+              },
+              "height": {
+                "type": "string",
+                "description": "User's height (cm)",
+                "example": "170"
+              },
+              "currentWeight": {
+                "type": "string",
+                "description": "User's current weight (kilo)",
+                "example": "68"
+              },
+              "desiredWeight": {
+                "type": "string",
+                "description": "User's desire weight (kilo)",
+                "example": "60"
+              },
+              "bloodType": {
+                "type": "string",
+                "description": "User's blood type",
+                "example": "3"
+              },
+              "age": {
+                "type": "string",
+                "description": "User's age",
+                "example": "33"
+              }
+            }
+          }
+        }
+      },
       "AddEatenProductRequest": {
         "type": "object",
         "required": ["productName", "productWeight", "date"],
@@ -376,10 +491,6 @@
                 "example": "638"
               }
             }
-          },
-          "message": {
-            "type": "string",
-            "description": "Status info"
           }
         }
       },
@@ -455,44 +566,38 @@
               "type": "object",
               "properties": {
                 "_id": {
-                "type": "string",
-                "description": "Item's id",
-                "example": "6106916986adfa001ce638d9"
-              },
-              "date": {
-                "type": "stryng",
-                "description": "Date when product was eaten",
-                "format": "date",
-                "example": "2021-07-29"
-              },
-              "userId": {
-                "type": "string",
-                "description": "Owner(user) id",
-                "example": "60fedfddaafe835dbcb16d07"
-              },
-              "productName": {
-                "type": "string",
-                "description": "Name of eaten product",
-                "example": "Котлеты из говядины рубленые"
-              },
-              "productWeight": {
-                "type": "number",
-                "description": "Amount of eaten product(grams)",
-                "example": "250"
-              },
-              "productKkal": {
-                "type": "number",
-                "description": "Calories of eaten product",
-                "example": "638"
+                  "type": "string",
+                  "description": "Item's id",
+                  "example": "6106916986adfa001ce638d9"
+                },
+                "date": {
+                  "type": "stryng",
+                  "description": "Date when product was eaten",
+                  "format": "date",
+                  "example": "2021-07-29"
+                },
+                "userId": {
+                  "type": "string",
+                  "description": "Owner(user) id",
+                  "example": "60fedfddaafe835dbcb16d07"
+                },
+                "productName": {
+                  "type": "string",
+                  "description": "Name of eaten product",
+                  "example": "Котлеты из говядины рубленые"
+                },
+                "productWeight": {
+                  "type": "number",
+                  "description": "Amount of eaten product(grams)",
+                  "example": "250"
+                },
+                "productKkal": {
+                  "type": "number",
+                  "description": "Calories of eaten product",
+                  "example": "638"
+                }
               }
-              }
-              
             }
-          },
-          "message": {
-            "type": "string",
-            "description": "Status info",
-            "example": "successful operation"
           }
         }
       }
