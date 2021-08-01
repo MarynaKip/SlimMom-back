@@ -25,7 +25,7 @@ const logoutController = async (req, res) => {
     id, token
   })
 
-  res.status(204).json({ message: 'Logout successful' })
+  res.status(204).json()
 }
 const getCurrentUserController = async (req, res, next) => {
   const token = req.token
