@@ -6,7 +6,7 @@ const addEatenProductService = async (userId, body) => {
   const { date, productWeight, productName } = body
 
   if (!isCurrentDate(date)) {
-    throw new WrongParametersError('The date must be current')
+    throw new WrongParametersError('Wrong date (the date must be current)')
   }
 
   const product = await EatenProducts.findOne({ userId, date, productName })
@@ -45,7 +45,7 @@ const addEatenProductService = async (userId, body) => {
 
 const deleteEatenProductService = async (userId, { date, productName }) => {
   if (!isCurrentDate(date)) {
-    throw new WrongParametersError('The date must be current')
+    throw new WrongParametersError('Wrong date (the date must be current)')
   }
 
   const product = await EatenProducts.findOneAndRemove({ userId, date, productName })
@@ -57,7 +57,9 @@ const deleteEatenProductService = async (userId, { date, productName }) => {
 
 const getEatenProductsListService = async (userId, { date }) => {
   if (isFutureDate(date)) {
-    throw new WrongParametersError('Date cannot be in the future')
+    throw new WrongParametersError(
+      'Wrong date (the date cannot be in the future)',
+    )
   }
   const productList = await EatenProducts.find({ userId, date }).select({ __v: 0 })
 
