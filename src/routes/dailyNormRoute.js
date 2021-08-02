@@ -12,6 +12,6 @@ const {
 } = require('../controllers/DailyController')
 
 router.post('/rate', authorInfoValidation, asyncWrapper(dailyNormController))
-router.post('/privateRate', authMiddleware, authorInfoValidation, asyncWrapper(privatDailyNormController))
+router.post('/private_rate', authMiddleware, authorInfoValidation, asyncWrapper(privatDailyNormController))
 
 module.exports = router

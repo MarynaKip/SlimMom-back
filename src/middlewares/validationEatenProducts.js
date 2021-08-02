@@ -12,7 +12,7 @@ const checkValidation = (schema, req, res, next) => {
 const validationAddEatenProduct = (req, res, next) => {
   const schema = Joi.object({
     productName: Joi.string().required(),
-    productWeight: Joi.number().min(5).max(5000).required(),
+    productWeight: Joi.number().integer().min(5).max(5000).required(),
     date: Joi.date().format('YYYY-MM-DD').required(),
   })
   checkValidation(schema, req, res, next)

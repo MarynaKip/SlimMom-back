@@ -14,8 +14,8 @@ const authorInfoValidation = (req, res, next) => {
     height: Joi.number().min(100).max(250).required(),
     currentWeight: Joi.number().min(30).max(300).required(),
     desiredWeight: Joi.number().min(20).max(300).required(),
-    bloodType: Joi.number().min(1).max(4).required(),
-    age: Joi.number().min(14).max(120).required(),
+    bloodType: Joi.number().integer().min(1).max(4).required(),
+    age: Joi.number().integer().min(16).max(120).required(),
   })
   checkValidation(schema, req, res, next)
 }
@@ -31,8 +31,8 @@ const registrationValidation = (req, res, next) => {
     height: Joi.number().min(90).max(250).optional(),
     currentWeight: Joi.number().min(30).max(300).optional(),
     desiredWeight: Joi.number().min(20).max(300).optional(),
-    bloodType: Joi.number().min(1).max(4).optional(),
-    age: Joi.number().min(14).max(120).optional(),
+    bloodType: Joi.number().integer().min(1).max(4).optional(),
+    age: Joi.number().integer().min(16).max(120).optional(),
   })
   checkValidation(schema, req, res, next)
 }

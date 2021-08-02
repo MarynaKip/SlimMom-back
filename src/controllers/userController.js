@@ -30,8 +30,8 @@ const logoutController = async (req, res) => {
 const getCurrentUserController = async (req, res, next) => {
   const token = req.token
   const { _id: id } = req.user
-  const currentUser = await getCurrentUser({ id, token })
-  return res.status(200).json({ currentUser })
+  const user = await getCurrentUser({ id, token })
+  return res.status(200).json({ user })
 }
 
 module.exports = {
