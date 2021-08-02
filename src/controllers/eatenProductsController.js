@@ -5,9 +5,14 @@ const {
 } = require('../services/eatenProductsService')
 
 const addEatenProductController = async (req, res) => {
-  const data = await addEatenProductService(req.user._id, req.body)
+  const product = await addEatenProductService(req.user._id, req.body)
+  const { _id, date, userId, productWeight, productKkal, productName } = product
 
-  return res.status(201).json({ data })
+  return res
+    .status(201)
+    .json({
+      data: { _id, date, userId, productWeight, productKkal, productName },
+    })
 }
 
 const deleteEatenProductController = async (req, res) => {

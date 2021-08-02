@@ -33,8 +33,8 @@ const dailyNorm = async ({ currentWeight, height, age, desiredWeight, bloodType 
 const privatDailyNorm = async ({ id, token, currentWeight, height, age, desiredWeight, bloodType }) => {
   await User.findByIdAndUpdate(
     { _id: id, token },
-    { $set: { currentWeight, age, desiredWeight } },
-    { new: true }
+    { $set: { currentWeight, age, desiredWeight, height } },
+    { new: true },
   )
   return dailyNorm({ currentWeight, height, age, desiredWeight, bloodType })
 }

@@ -32,7 +32,15 @@
       "post": {
         "tags": ["Auth"],
         "summary": "User registration",
-        "parameters": [],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "product",
+            "required": true,
+            "type": "string",
+            "description": "Date of user's eaten products"
+          }
+        ],
         "requestBody": {
           "description": "Registration's object",
           "required": true,
@@ -89,7 +97,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/LoginResponse"
+                  "$ref": "#/components/schemas/RegistrationResponse"
                 }
               }
             }
@@ -99,7 +107,7 @@
             "content": {}
           },
           "401": {
-            "description": "Email is wrong/Password is wrong",
+            "description": "Wrong credentials(email or password is wrong)",
             "content": {}
           }
         }
@@ -144,6 +152,43 @@
           },
           "401": {
             "description": "Not authorized/Invalid token",
+            "content": {}
+          }
+        }
+      }
+    },
+
+    "/api/products": {
+      "get": {
+        "tags": ["Products"],
+        "summary": "Search products",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "input",
+            "required": true,
+            "type": "string",
+            "description": "Name of the product"
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductsResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized/Invalid token",
+            "content": {}
+          },
+          "404": {
+            "description": "No matched products",
             "content": {}
           }
         }
@@ -270,6 +315,37 @@
   },
   "components": {
     "schemas": {
+      "ProductsResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "object",
+                  "description": "Product name",
+                  "example": {
+                    "ru": "Какао-бобы",
+                    "ua": "Какао-боби"
+                  },
+                  "properties": {
+                    "ru": {
+                      "type": "string",
+                      "description": "Product name in Russian"
+                    },
+                    "ua": {
+                      "type": "string",
+                      "description": "Product name in Ukrainian"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
       "RegistrationRequest": {
         "type": "object",
         "required": ["name", "email", "password"],
@@ -294,37 +370,37 @@
             "example": "123qwe"
           },
           "height": {
-            "type": "string",
-            "minLength": 3,
-            "maxLength": 4,
+            "type": "number",
+            "min": 90,
+            "max": 250,
             "description": "User's height (cm)",
             "example": "170"
           },
           "currentWeight": {
-            "type": "string",
-            "minLength": 2,
-            "maxLength": 3,
+            "type": "number",
+            "min": 30,
+            "max": 300,
             "description": "User's current weight (kilo)",
             "example": "68"
           },
           "desiredWeight": {
-            "type": "string",
-            "minLength": 2,
-            "maxLength": 3,
+            "type": "number",
+            "min": 20,
+            "max": 300,
             "description": "User's desire weight (kilo)",
             "example": "60"
           },
           "bloodType": {
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 1,
+            "type": "number",
+            "min": 1,
+            "max": 4,
             "description": "User's blood type (1-4)",
             "example": "3"
           },
           "age": {
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 3,
+            "type": "number",
+            "min": 14,
+            "max": 120,
             "description": "User's age",
             "example": "33"
           }
@@ -340,10 +416,6 @@
                 "type": "string",
                 "description": "Access token",
                 "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTA3MWIyMTc3OTMwMDAwMWNjMTRkNmMiLCJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20iLCJpYXQiOjE2Mjc4NTU2NDl9.1OcbkBQQl9K5L9s44anlGqq61Up7e21jBLH_NIp2jgs"
-              },
-              "verify": {
-                "type": "boolean",
-                "description": "User's verify"
               },
               "_id": {
                 "type": "string",
@@ -407,61 +479,6 @@
           }
         }
       },
-      "LoginResponse": {
-        "type": "object",
-        "properties": {
-          "user": {
-            "type": "object",
-            "properties": {
-              "token": {
-                "type": "string",
-                "description": "Access token",
-                "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTA3MWIyMTc3OTMwMDAwMWNjMTRkNmMiLCJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20iLCJpYXQiOjE2Mjc4NTU2NDl9.1OcbkBQQl9K5L9s44anlGqq61Up7e21jBLH_NIp2jgs"
-              },
-              "_id": {
-                "type": "string",
-                "description": "User's id",
-                "example": "6106916986adfa001ce638d9"
-              },
-              "email": {
-                "type": "string",
-                "description": "User's email",
-                "format": "email"
-              },
-              "name": {
-                "type": "string",
-                "description": "User's name",
-                "example": "Nina"
-              },
-              "height": {
-                "type": "string",
-                "description": "User's height (cm)",
-                "example": "170"
-              },
-              "currentWeight": {
-                "type": "string",
-                "description": "User's current weight (kilo)",
-                "example": "68"
-              },
-              "desiredWeight": {
-                "type": "string",
-                "description": "User's desire weight (kilo)",
-                "example": "60"
-              },
-              "bloodType": {
-                "type": "string",
-                "description": "User's blood type",
-                "example": "3"
-              },
-              "age": {
-                "type": "string",
-                "description": "User's age",
-                "example": "33"
-              }
-            }
-          }
-        }
-      },
       "AddEatenProductRequest": {
         "type": "object",
         "required": ["productName", "productWeight", "date"],
@@ -472,7 +489,7 @@
             "example": "Котлеты из говядины рубленые"
           },
           "productWeight": {
-            "type": "number",
+            "type": "string",
             "description": "Amount of eaten product(grams)",
             "example": "250"
           },
@@ -511,12 +528,12 @@
                 "example": "Котлеты из говядины рубленые"
               },
               "productWeight": {
-                "type": "number",
+                "type": "string",
                 "description": "Amount of eaten product(grams)",
                 "example": "250"
               },
               "productKkal": {
-                "type": "number",
+                "type": "string",
                 "description": "Calories of eaten product",
                 "example": "638"
               }
@@ -555,7 +572,7 @@
                   "example": "6106916986adfa001ce638d9"
                 },
                 "date": {
-                  "type": "stryng",
+                  "type": "string",
                   "description": "Date when product was eaten",
                   "format": "date",
                   "example": "2021-07-29"
