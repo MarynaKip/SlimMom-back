@@ -1,0 +1,613 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "version": "1.0.1",
+    "title": "Slim-Mom API docs",
+    "description": "API documentation for GoIT Sharcs team project 'Slim-Mom'. [Backend github repository](https://github.com/MarynaKip/slim-mom-backend) | [Frontend github repository](https://github.com/MarynaKip/slim-mom-frontend)"
+  },
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "servers": [{ "url": "https://obscure-shelf-16384.herokuapp.com" }],
+  "tags": [
+    {
+      "name": "Auth",
+      "description": "Authorization endpoints"
+    },
+    {
+      "name": "Products",
+      "description": "Products endpoints"
+    },
+    {
+      "name": "Daily rate",
+      "description": "Daily rate endpoints"
+    },
+    {
+      "name": "Eaten products",
+      "description": "Eaten products endpoints"
+    }
+  ],
+
+  "paths": {
+    "/api/user/registration": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "User registration",
+        "parameters": [],
+        "requestBody": {
+          "description": "Registration's object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegistrationRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegistrationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {}
+          },
+          "409": {
+            "description": "Provided email already exists",
+            "content": {}
+          }
+        }
+      }
+    },
+
+    "/api/user/login": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "User authentication",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Registration's object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegistrationRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegistrationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {}
+          },
+          "409": {
+            "description": "Provided email already exists",
+            "content": {}
+          }
+        }
+      }
+    },
+
+    "/api/user/logout": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Logout",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Registration's object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegistrationRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegistrationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {}
+          },
+          "409": {
+            "description": "Provided email already exists",
+            "content": {}
+          }
+        }
+      }
+    },
+
+    "/api/user/current": {
+      "get": {
+        "tags": ["Auth"],
+        "summary": "Get current user info",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Registration's object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegistrationRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegistrationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {}
+          },
+          "409": {
+            "description": "Provided email already exists",
+            "content": {}
+          }
+        }
+      }
+    },
+
+    "/api/eaten_products": {
+      "post": {
+        "tags": ["Eaten products"],
+        "summary": "Add the product eaten by the user for the current date",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Eaten products object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddEatenProductRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddEatenProductResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)/Wrong date (the date must be current)",
+            "content": {}
+          },
+          "401": {
+            "description": "Not authorized/Invalid token",
+            "content": {}
+          },
+          "404": {
+            "description": "Not Found (product name is not correct)",
+            "content": {}
+          }
+        }
+      },
+      "get": {
+        "tags": ["Eaten products"],
+        "summary": "Get a list of products eaten by the user for a specific day",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "date",
+            "required": true,
+            "type": "string",
+            "description": "Date of user's eaten products"
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetEatenProductListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)/Wrong date (the date cannot be in the future)",
+            "content": {}
+          },
+          "401": {
+            "description": "Not authorized/Invalid token",
+            "content": {}
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Eaten products"],
+        "summary": "Delete the product eaten by the user for the current date",
+
+        "parameters": [],
+
+        "security": [{ "Bearer": [] }],
+
+        "requestBody": {
+          "description": "Delete eaten product object",
+          "required": true,
+
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeleteEatenProductRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteEatenProductResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)/Wrong date (the date must be current)",
+            "content": {}
+          },
+          "401": {
+            "description": "Not authorized/Invalid token",
+            "content": {}
+          },
+          "404": {
+            "description": "Not Found (this product is not eaten on the current date)",
+            "content": {}
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "RegistrationRequest": {
+        "type": "object",
+        "required": ["name", "email", "password"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 30,
+            "description": "User's name",
+            "example": "Nina"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 30,
+            "description": "User's password",
+            "example": "123qwe"
+          },
+          "height": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 4,
+            "description": "User's height (cm)",
+            "example": "170"
+          },
+          "currentWeight": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 3,
+            "description": "User's current weight (kilo)",
+            "example": "68"
+          },
+          "desiredWeight": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 3,
+            "description": "User's desire weight (kilo)",
+            "example": "60"
+          },
+          "bloodType": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1,
+            "description": "User's blood type (1-4)",
+            "example": "3"
+          },
+          "age": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 3,
+            "description": "User's age",
+            "example": "33"
+          }
+        }
+      },
+      "RegistrationResponse": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "type": "object",
+            "properties": {
+              "token": {
+                "type": "string",
+                "description": "Access token",
+                "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTA3MWIyMTc3OTMwMDAwMWNjMTRkNmMiLCJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20iLCJpYXQiOjE2Mjc4NTU2NDl9.1OcbkBQQl9K5L9s44anlGqq61Up7e21jBLH_NIp2jgs"
+              },
+              "verify": {
+                "type": "boolean",
+                "description": "User's verify"
+              },
+              "_id": {
+                "type": "string",
+                "description": "User's id",
+                "example": "6106916986adfa001ce638d9"
+              },
+              "email": {
+                "type": "string",
+                "description": "User's email",
+                "format": "email"
+              },
+              "name": {
+                "type": "string",
+                "description": "User's name",
+                "example": "Nina"
+              },
+              "height": {
+                "type": "string",
+                "description": "User's height (cm)",
+                "example": "170"
+              },
+              "currentWeight": {
+                "type": "string",
+                "description": "User's current weight (kilo)",
+                "example": "68"
+              },
+              "desiredWeight": {
+                "type": "string",
+                "description": "User's desire weight (kilo)",
+                "example": "60"
+              },
+              "bloodType": {
+                "type": "string",
+                "description": "User's blood type",
+                "example": "3"
+              },
+              "age": {
+                "type": "string",
+                "description": "User's age",
+                "example": "33"
+              }
+            }
+          }
+        }
+      },
+      "AddEatenProductRequest": {
+        "type": "object",
+        "required": ["productName", "productWeight", "date"],
+        "properties": {
+          "productName": {
+            "type": "string",
+            "description": "Name of product",
+            "example": "Котлеты из говядины рубленые"
+          },
+          "productWeight": {
+            "type": "number",
+            "description": "Amount of eaten product(grams)",
+            "example": "250"
+          },
+          "date": {
+            "type": "stryng",
+            "description": "Date when product was eaten",
+            "format": "date",
+            "example": "2021-07-29"
+          }
+        }
+      },
+      "AddEatenProductResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "properties": {
+              "_id": {
+                "type": "string",
+                "description": "Item's id",
+                "example": "6106916986adfa001ce638d9"
+              },
+              "date": {
+                "type": "stryng",
+                "description": "Date when product was eaten",
+                "format": "date",
+                "example": "2021-07-29"
+              },
+              "userId": {
+                "type": "string",
+                "description": "Owner id",
+                "example": "60fedfddaafe835dbcb16d07"
+              },
+              "productName": {
+                "type": "string",
+                "description": "Name of eaten product",
+                "example": "Котлеты из говядины рубленые"
+              },
+              "productWeight": {
+                "type": "number",
+                "description": "Amount of eaten product(grams)",
+                "example": "250"
+              },
+              "productKkal": {
+                "type": "number",
+                "description": "Calories of eaten product",
+                "example": "638"
+              }
+            }
+          }
+        }
+      },
+      "DeleteEatenProductRequest": {
+        "type": "object",
+        "required": ["productName", "date"],
+        "properties": {
+          "productName": {
+            "type": "string",
+            "description": "Name of eaten product",
+            "example": "Котлеты из говядины рубленые"
+          },
+          "date": {
+            "type": "stryng",
+            "description": "Date when product was eaten",
+            "format": "date",
+            "example": "2021-07-29"
+          }
+        }
+      },
+      "DeleteEatenProductResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "properties": {
+              "_id": {
+                "type": "string",
+                "description": "Item's id",
+                "example": "6106916986adfa001ce638d9"
+              },
+              "date": {
+                "type": "stryng",
+                "description": "Date when product was eaten",
+                "format": "date",
+                "example": "2021-07-29"
+              },
+              "userId": {
+                "type": "string",
+                "description": "Owner(user) id",
+                "example": "60fedfddaafe835dbcb16d07"
+              },
+              "productName": {
+                "type": "string",
+                "description": "Name of eaten product",
+                "example": "Котлеты из говядины рубленые"
+              },
+              "productWeight": {
+                "type": "number",
+                "description": "Amount of eaten product(grams)",
+                "example": "250"
+              },
+              "productKkal": {
+                "type": "number",
+                "description": "Calories of eaten product",
+                "example": "638"
+              }
+            }
+          },
+          "message": {
+            "type": "string",
+            "description": "Status info",
+            "example": "successful operation"
+          }
+        }
+      },
+
+      "GetEatenProductListResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "string",
+                  "description": "Item's id",
+                  "example": "6106916986adfa001ce638d9"
+                },
+                "date": {
+                  "type": "stryng",
+                  "description": "Date when product was eaten",
+                  "format": "date",
+                  "example": "2021-07-29"
+                },
+                "userId": {
+                  "type": "string",
+                  "description": "Owner(user) id",
+                  "example": "60fedfddaafe835dbcb16d07"
+                },
+                "productName": {
+                  "type": "string",
+                  "description": "Name of eaten product",
+                  "example": "Котлеты из говядины рубленые"
+                },
+                "productWeight": {
+                  "type": "number",
+                  "description": "Amount of eaten product(grams)",
+                  "example": "250"
+                },
+                "productKkal": {
+                  "type": "number",
+                  "description": "Calories of eaten product",
+                  "example": "638"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}

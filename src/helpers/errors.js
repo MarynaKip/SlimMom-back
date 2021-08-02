@@ -12,6 +12,13 @@ class ValidationError extends ServiceError {
   }
 }
 
+class WrongParametersError extends ServiceError {
+  constructor(message) {
+    super(message)
+    this.status = 400
+  }
+}
+
 class NotAuthorized extends ServiceError {
   constructor(message) {
     super(message)
@@ -38,4 +45,5 @@ module.exports = {
   RegistrationConflictError,
   ValidationError,
   NotFoundError,
+  WrongParametersError,
 }
