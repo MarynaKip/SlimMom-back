@@ -10,7 +10,7 @@ const {
   validationAddEatenProduct,
   validationDeleteEatenProduct,
   validationGetEatenProducts,
-} = require('../middlewares/validationEatenProdacts')
+} = require('../middlewares/validationEatenProducts')
 
 router.use(authMiddleware)
 router.post('/', validationAddEatenProduct, asyncWrapper(addEatenProductController))
