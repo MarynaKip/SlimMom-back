@@ -60,7 +60,7 @@
             "content": {}
           },
           "409": {
-            "description": "Provided email already exists",
+            "description": "Email is already used",
             "content": {}
           }
         }
@@ -72,25 +72,24 @@
         "tags": ["Auth"],
         "summary": "User authentication",
         "parameters": [],
-        "security": [{ "Bearer": [] }],
         "requestBody": {
           "description": "Registration's object",
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/RegistrationRequest"
+                "$ref": "#/components/schemas/LoginRequest"
               }
             }
           }
         },
         "responses": {
-          "201": {
+          "200": {
             "description": "Successful operation",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/RegistrationResponse"
+                  "$ref": "#/components/schemas/LoginResponse"
                 }
               }
             }
@@ -99,8 +98,8 @@
             "description": "Bad request (invalid request body)",
             "content": {}
           },
-          "409": {
-            "description": "Provided email already exists",
+          "401": {
+            "description": "Email is wrong/Password is wrong",
             "content": {}
           }
         }
@@ -113,34 +112,13 @@
         "summary": "Logout",
         "parameters": [],
         "security": [{ "Bearer": [] }],
-        "requestBody": {
-          "description": "Registration's object",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RegistrationRequest"
-              }
-            }
-          }
-        },
         "responses": {
-          "201": {
+          "204": {
             "description": "Successful operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RegistrationResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad request (invalid request body)",
             "content": {}
           },
-          "409": {
-            "description": "Provided email already exists",
+          "401": {
+            "description": "Not authorized/Invalid token",
             "content": {}
           }
         }
@@ -153,34 +131,19 @@
         "summary": "Get current user info",
         "parameters": [],
         "security": [{ "Bearer": [] }],
-        "requestBody": {
-          "description": "Registration's object",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RegistrationRequest"
-              }
-            }
-          }
-        },
         "responses": {
-          "201": {
+          "200": {
             "description": "Successful operation",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/RegistrationResponse"
+                  "$ref": "#/components/schemas/LoginResponse"
                 }
               }
             }
           },
-          "400": {
-            "description": "Bad request (invalid request body)",
-            "content": {}
-          },
-          "409": {
-            "description": "Provided email already exists",
+          "401": {
+            "description": "Not authorized/Invalid token",
             "content": {}
           }
         }
@@ -286,14 +249,8 @@
         },
         "responses": {
           "204": {
-            "description": "successful operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/DeleteEatenProductResponse"
-                }
-              }
-            }
+            "description": "Successful operation",
+            "content": {}
           },
           "400": {
             "description": "Bad request (invalid request body)/Wrong date (the date must be current)",
@@ -432,6 +389,79 @@
           }
         }
       },
+      "LoginRequest": {
+        "type": "object",
+        "required": ["email", "password"],
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 30,
+            "description": "User's password",
+            "example": "123qwe"
+          }
+        }
+      },
+      "LoginResponse": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "type": "object",
+            "properties": {
+              "token": {
+                "type": "string",
+                "description": "Access token",
+                "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTA3MWIyMTc3OTMwMDAwMWNjMTRkNmMiLCJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20iLCJpYXQiOjE2Mjc4NTU2NDl9.1OcbkBQQl9K5L9s44anlGqq61Up7e21jBLH_NIp2jgs"
+              },
+              "_id": {
+                "type": "string",
+                "description": "User's id",
+                "example": "6106916986adfa001ce638d9"
+              },
+              "email": {
+                "type": "string",
+                "description": "User's email",
+                "format": "email"
+              },
+              "name": {
+                "type": "string",
+                "description": "User's name",
+                "example": "Nina"
+              },
+              "height": {
+                "type": "string",
+                "description": "User's height (cm)",
+                "example": "170"
+              },
+              "currentWeight": {
+                "type": "string",
+                "description": "User's current weight (kilo)",
+                "example": "68"
+              },
+              "desiredWeight": {
+                "type": "string",
+                "description": "User's desire weight (kilo)",
+                "example": "60"
+              },
+              "bloodType": {
+                "type": "string",
+                "description": "User's blood type",
+                "example": "3"
+              },
+              "age": {
+                "type": "string",
+                "description": "User's age",
+                "example": "33"
+              }
+            }
+          }
+        }
+      },
       "AddEatenProductRequest": {
         "type": "object",
         "required": ["productName", "productWeight", "date"],
@@ -511,52 +541,6 @@
           }
         }
       },
-      "DeleteEatenProductResponse": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "properties": {
-              "_id": {
-                "type": "string",
-                "description": "Item's id",
-                "example": "6106916986adfa001ce638d9"
-              },
-              "date": {
-                "type": "stryng",
-                "description": "Date when product was eaten",
-                "format": "date",
-                "example": "2021-07-29"
-              },
-              "userId": {
-                "type": "string",
-                "description": "Owner(user) id",
-                "example": "60fedfddaafe835dbcb16d07"
-              },
-              "productName": {
-                "type": "string",
-                "description": "Name of eaten product",
-                "example": "Котлеты из говядины рубленые"
-              },
-              "productWeight": {
-                "type": "number",
-                "description": "Amount of eaten product(grams)",
-                "example": "250"
-              },
-              "productKkal": {
-                "type": "number",
-                "description": "Calories of eaten product",
-                "example": "638"
-              }
-            }
-          },
-          "message": {
-            "type": "string",
-            "description": "Status info",
-            "example": "successful operation"
-          }
-        }
-      },
-
       "GetEatenProductListResponse": {
         "type": "object",
         "properties": {

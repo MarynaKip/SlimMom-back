@@ -13,7 +13,7 @@ const addEatenProductController = async (req, res) => {
 const deleteEatenProductController = async (req, res) => {
   await deleteEatenProductService(req.user._id, req.body)
 
-  return res.status(204).json({ message: 'successful operation' })
+  return res.status(204).json()
 }
 
 const getEatenProductsListController = async (req, res) => {
