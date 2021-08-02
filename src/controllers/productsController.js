@@ -8,7 +8,7 @@ const getQueryMatchedProductListController =
 
     const data = await getQueryMatchedProductListService(input)
 
-    return res.status(200).json({ data, status: 'success' })
+    return res.status(200).json({ data })
   }
 
 module.exports = {

@@ -4,7 +4,6 @@ const bcrypt = require('bcrypt')
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
-    // required: [true, 'Name is required'],
   },
   password: {
     type: String,
@@ -17,28 +16,18 @@ const userSchema = new mongoose.Schema({
   },
   height: {
     type: String,
-    // required: [true, 'height is required'],
-
   },
   age: {
     type: String,
-    // required: [true, 'height is required'],
-
   },
   currentWeight: {
     type: String,
-    // required: [true, 'currentWeight is required'],
-
   },
   desiredWeight: {
     type: String,
-    // required: [true, 'desiredWeight is required'],
-
   },
   bloodType: {
     type: Number,
-    // required: [true, 'bloodType is required'],
-
   },
   dailyRate: {
     type: String,
@@ -46,13 +35,6 @@ const userSchema = new mongoose.Schema({
   token: {
     type: String,
     default: null,
-  },
-  verify: {
-    type: Boolean,
-    default: false,
-  },
-  verifyToken: {
-    type: String,
   },
 })
 
