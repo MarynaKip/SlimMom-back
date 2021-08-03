@@ -50,7 +50,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/RegistrationResponse"
+                  "$ref": "#/components/schemas/LoginResponse"
                 }
               }
             }
@@ -89,7 +89,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/RegistrationResponse"
+                  "$ref": "#/components/schemas/LoginResponse"
                 }
               }
             }
@@ -303,40 +303,6 @@
           }
         }
       },
-      "get": {
-        "tags": ["Eaten products"],
-        "summary": "Get a list of products eaten by the user for a specific day",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "date",
-            "required": true,
-            "type": "string",
-            "description": "Date of user's eaten products"
-          }
-        ],
-        "security": [{ "Bearer": [] }],
-        "responses": {
-          "200": {
-            "description": "Successful operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetEatenProductListResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad request (invalid request body)/Wrong date (the date cannot be in the future)",
-            "content": {}
-          },
-          "401": {
-            "description": "Not authorized/Invalid token",
-            "content": {}
-          }
-        }
-      },
       "delete": {
         "tags": ["Eaten products"],
         "summary": "Delete the product eaten by the user for the current date",
@@ -372,6 +338,42 @@
           },
           "404": {
             "description": "Not Found (this product is not eaten on the current date)",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/api/eaten_products/{date}": {
+      "get": {
+        "tags": ["Eaten products"],
+        "summary": "Get a list of products eaten by the user for a specific day",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "date",
+            "required": true,
+            "type": "date",
+            "description": "Date of user's eaten products"
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetEatenProductListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request params)/Wrong date (the date cannot be in the future)",
+            "content": {}
+          },
+          "401": {
+            "description": "Not authorized/Invalid token",
             "content": {}
           }
         }
@@ -471,61 +473,7 @@
           }
         }
       },
-      "RegistrationResponse": {
-        "type": "object",
-        "properties": {
-          "user": {
-            "type": "object",
-            "properties": {
-              "token": {
-                "type": "string",
-                "description": "Access token",
-                "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTA3MWIyMTc3OTMwMDAwMWNjMTRkNmMiLCJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20iLCJpYXQiOjE2Mjc4NTU2NDl9.1OcbkBQQl9K5L9s44anlGqq61Up7e21jBLH_NIp2jgs"
-              },
-              "_id": {
-                "type": "string",
-                "description": "User's id",
-                "example": "6106916986adfa001ce638d9"
-              },
-              "email": {
-                "type": "string",
-                "description": "User's email",
-                "format": "email"
-              },
-              "name": {
-                "type": "string",
-                "description": "User's name",
-                "example": "Nina"
-              },
-              "height": {
-                "type": "string",
-                "description": "User's height (cm)",
-                "example": "170"
-              },
-              "currentWeight": {
-                "type": "string",
-                "description": "User's current weight (kilo)",
-                "example": "68"
-              },
-              "desiredWeight": {
-                "type": "string",
-                "description": "User's desire weight (kilo)",
-                "example": "60"
-              },
-              "bloodType": {
-                "type": "string",
-                "description": "User's blood type",
-                "example": "3"
-              },
-              "age": {
-                "type": "string",
-                "description": "User's age",
-                "example": "33"
-              }
-            }
-          }
-        }
-      },
+      
       "LoginRequest": {
         "type": "object",
         "required": ["email", "password"],
@@ -586,9 +534,9 @@
                 "example": "60"
               },
               "bloodType": {
-                "type": "string",
+                "type": "number",
                 "description": "User's blood type",
-                "example": "3"
+                "example": 3
               },
               "age": {
                 "type": "string",
