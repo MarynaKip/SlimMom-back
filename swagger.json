@@ -3,11 +3,11 @@
   "info": {
     "version": "1.0.1",
     "title": "Slim-Mom API docs",
-    "description": "API documentation for GoIT Sharcs team project 'Slim-Mom'. [Backend github repository](https://github.com/MarynaKip/slim-mom-backend) | [Frontend github repository](https://github.com/MarynaKip/slim-mom-frontend)"
+    "description": "API documentation for Bears team's project 'Slim-Mom'. [Backend github repository](https://github.com/MarynaKip/slim-mom-backend) | [Frontend github repository](https://github.com/MarynaKip/slim-mom-frontend)"
   },
   "consumes": ["application/json"],
   "produces": ["application/json"],
-  "servers": [{ "url": "http://localhost:8080" }],
+  "servers": [{ "url": "https://obscure-shelf-16384.herokuapp.com" }],
   "tags": [
     {
       "name": "Auth",
