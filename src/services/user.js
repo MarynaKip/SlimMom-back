@@ -1,5 +1,8 @@
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+ const {
+  privatDailyNorm
+} = require('../services/daily')
 
 const { User } = require('../db/userModel')
 const { NotAuthorized, RegistrationConflictError } = require('../helpers/errors')
@@ -19,6 +22,7 @@ const login = async ({ email, password }) => {
     },
     process.env.JWT_SECRET
   )
+  await privatDailyNorm({ id: user._id, token: user.token, currentWeight: user.currentWeight, height: user.height, age: user.age, desiredWeight: user.desiredWeight, bloodType: user.bloodType})
   const updatedUser = await User.findByIdAndUpdate(
     user._id,
     { $set: { token } },
@@ -31,9 +35,8 @@ const registration = async ({ email, password, height, name, currentWeight, desi
   const existEmail = await User.findOne({ email })
   if (existEmail) { throw new RegistrationConflictError('Email is already used') }
   const user = new User({ email, password, height, name, currentWeight, desiredWeight, bloodType, age })
-
   await user.save()
-  return login({ email, password })
+  return await login({ email, password })
 }
 const logout = async ({ id, token }) => {
   const logoutUser = await User.findOneAndUpdate(
