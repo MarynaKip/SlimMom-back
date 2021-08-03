@@ -303,40 +303,6 @@
           }
         }
       },
-      "get": {
-        "tags": ["Eaten products"],
-        "summary": "Get a list of products eaten by the user for a specific day",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "date",
-            "required": true,
-            "type": "string",
-            "description": "Date of user's eaten products"
-          }
-        ],
-        "security": [{ "Bearer": [] }],
-        "responses": {
-          "200": {
-            "description": "Successful operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetEatenProductListResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad request (invalid request body)/Wrong date (the date cannot be in the future)",
-            "content": {}
-          },
-          "401": {
-            "description": "Not authorized/Invalid token",
-            "content": {}
-          }
-        }
-      },
       "delete": {
         "tags": ["Eaten products"],
         "summary": "Delete the product eaten by the user for the current date",
@@ -372,6 +338,42 @@
           },
           "404": {
             "description": "Not Found (this product is not eaten on the current date)",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/api/eaten_products/{date}": {
+      "get": {
+        "tags": ["Eaten products"],
+        "summary": "Get a list of products eaten by the user for a specific day",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "date",
+            "required": true,
+            "type": "date",
+            "description": "Date of user's eaten products"
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetEatenProductListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request params)/Wrong date (the date cannot be in the future)",
+            "content": {}
+          },
+          "401": {
+            "description": "Not authorized/Invalid token",
             "content": {}
           }
         }
