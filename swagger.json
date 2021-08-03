@@ -3,11 +3,11 @@
   "info": {
     "version": "1.0.1",
     "title": "Slim-Mom API docs",
-    "description": "API documentation for GoIT Sharcs team project 'Slim-Mom'. [Backend github repository](https://github.com/MarynaKip/slim-mom-backend) | [Frontend github repository](https://github.com/MarynaKip/slim-mom-frontend)"
+    "description": "API documentation for Bears team's project 'Slim-Mom'. [Backend github repository](https://github.com/MarynaKip/slim-mom-backend) | [Frontend github repository](https://github.com/MarynaKip/slim-mom-frontend)"
   },
   "consumes": ["application/json"],
   "produces": ["application/json"],
-  "servers": [{ "url": "http://localhost:8080" }],
+  "servers": [{ "url": "https://obscure-shelf-16384.herokuapp.com" }],
   "tags": [
     {
       "name": "Auth",
@@ -192,7 +192,7 @@
         "summary": "Daily rate for a user",
         "parameters": [],
         "requestBody": {
-          "description": "Daily-rate object",
+          "description": "Daily rate object",
           "required": true,
           "content": {
             "application/json": {
@@ -223,16 +223,16 @@
     "/api/daily/private_rate": {
       "post": {
         "tags": ["Daily rate"],
-        "summary": "Search products",
+        "summary": "Daily rate for the user",
         "parameters": [],
         "security": [{ "Bearer": [] }],
         "requestBody": {
-          "description": "Registration's object",
+          "description": "Daily private rate object",
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/LoginRequest"
+                "$ref": "#/components/schemas/DailyRateRequest"
               }
             }
           }
@@ -243,17 +243,17 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProductsResponse"
+                  "$ref": "#/components/schemas/DailyRateResponse"
                 }
               }
             }
           },
-          "401": {
-            "description": "Not authorized/Invalid token",
+          "400": {
+            "description": "Bad request (invalid request body)",
             "content": {}
           },
-          "404": {
-            "description": "No matched products",
+          "401": {
+            "description": "Not authorized/Invalid token",
             "content": {}
           }
         }
@@ -649,21 +649,26 @@
       "DailyRateResponse": {
         "type": "object",
         "properties": {
-          "dailyMeal": {
+          "user": {
             "type": "object",
-            "description": "Daily meal description for the user",
             "properties": {
-              "dailyNorm": {
-                "type": "number",
-                "description": "Daily calories norm for the user",
-                "example": 1345
-              },
-              "notAllowedProduct": {
-                "type": "array",
-                "description": "Isn't recommended products for the user",
-                "example": ["молочные", "мучные", "мясо"],
-                "items": {
-                  "type": "string"
+              "dailyMeal": {
+                "type": "object",
+                "description": "Daily meal description for the user",
+                "properties": {
+                  "dailyNorm": {
+                    "type": "number",
+                    "description": "Daily calories norm for the user",
+                    "example": 1345
+                  },
+                  "notAllowedProduct": {
+                    "type": "array",
+                    "description": "Isn't recommended products for the user",
+                    "example": ["молочные", "мучные", "мясо"],
+                    "items": {
+                      "type": "string"
+                    }
+                  }
                 }
               }
             }
@@ -779,12 +784,12 @@
                   "example": "Котлеты из говядины рубленые"
                 },
                 "productWeight": {
-                  "type": "number",
+                  "type": "string",
                   "description": "Amount of eaten product(grams)",
                   "example": "250"
                 },
                 "productKkal": {
-                  "type": "number",
+                  "type": "string",
                   "description": "Calories of eaten product",
                   "example": "638"
                 }
