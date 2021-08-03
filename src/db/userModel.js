@@ -16,21 +16,31 @@ const userSchema = new mongoose.Schema({
   },
   height: {
     type: String,
+    default: null,
   },
   age: {
     type: String,
+    default: null,
   },
   currentWeight: {
     type: String,
+    default: null,
   },
   desiredWeight: {
     type: String,
+    default: null,
   },
   bloodType: {
     type: Number,
+    default: null,
   },
   dailyRate: {
-    type: String,
+    type: Number,
+    default: null,
+  },
+  notAllowedProduct: {
+    type: Array,
+    default: null,
   },
   token: {
     type: String,
