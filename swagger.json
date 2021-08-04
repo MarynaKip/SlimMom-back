@@ -542,6 +542,19 @@
                 "type": "string",
                 "description": "User's age",
                 "example": "33"
+              },
+              "dailyNorm": {
+                "type": "number",
+                "description": "Daily calories norm for the user",
+                "example": 1345
+              },
+              "notAllowedProduct": {
+                "type": "array",
+                "description": "Isn't recommended products for the user",
+                "example": ["молочные", "мучные", "мясо"],
+                "items": {
+                  "type": "string"
+                }
               }
             }
           }
