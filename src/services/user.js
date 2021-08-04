@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
- const {
+const {
   privatDailyNorm
 } = require('../services/daily')
 
@@ -22,7 +22,7 @@ const login = async ({ email, password }) => {
     },
     process.env.JWT_SECRET
   )
-  await privatDailyNorm({ id: user._id, token: user.token, currentWeight: user.currentWeight, height: user.height, age: user.age, desiredWeight: user.desiredWeight, bloodType: user.bloodType})
+  await privatDailyNorm({ id: user._id, token: user.token, currentWeight: user.currentWeight, height: user.height, age: user.age, desiredWeight: user.desiredWeight, bloodType: user.bloodType })
   const updatedUser = await User.findByIdAndUpdate(
     user._id,
     { $set: { token } },
