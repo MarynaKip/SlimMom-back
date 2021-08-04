@@ -34,7 +34,7 @@ const userSchema = new mongoose.Schema({
     type: Number,
     default: null,
   },
-  dailyRate: {
+  dailyNorm: {
     type: Number,
     default: null,
   },
