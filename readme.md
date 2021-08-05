@@ -6,6 +6,6 @@ https://obscure-shelf-16384.herokuapp.com/api-docs/
 Developers:
 
 - Maryna Kipenko (team lead)
-- Olha Pylipova
+- Olha Pylypova
 - Oleksandr Sytsenko
 - Elgar
