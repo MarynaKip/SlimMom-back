@@ -81,14 +81,14 @@ const countKkal = async (productName, productWeight) => {
 
 const isCurrentDate = date => {
   const inputDay = new Date(date).setHours(0, 0, 0, 0)
-  const today = new Date().setHours(0, 0, 0, 0) + 10800000
+  const today = new Date().setHours(0, 0, 0, 0)
 
   return inputDay === today
 }
 
 const isFutureDate = date => {
   const inputDay = new Date(date).setHours(0, 0, 0, 0)
-  const today = new Date().setHours(0, 0, 0, 0) + 10800000
+  const today = new Date().setHours(0, 0, 0, 0)
 
   return inputDay > today
 }
